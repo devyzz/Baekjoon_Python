@@ -6,3 +6,35 @@
 # 태그는 '<'로 시작해서 '>'로 끝나는 길이가 3 이상인 부분 문자열이고, '<'와 '>' 사이에는 알파벳 소문자와 공백만 있다.
 
 # 단어는 알파벳 소문자와 숫자로 이루어진 부분 문자열이고, 연속하는 두 단어는 공백 하나로 구분한다. 태그는 단어가 아니며, 태그와 단어 사이에는 공백이 없다.
+
+string = input()
+stack = []
+answer = ''
+is_tag = False  #태그 내부 여부
+
+for char in string:
+    if char == '<':
+        # 스택에 있는 문자 먼저 뒤집어 출력
+        while stack:
+            answer += stack.pop()
+        is_tag = True
+        answer += char
+    elif char == '>':
+        is_tag = False
+        answer += char
+    elif is_tag:
+        answer += char
+    elif char == ' ':
+        # 단어 경계: 스택 비우고 공백 추가
+        while stack:
+            answer += stack.pop()
+        answer += char
+    else:
+        # 단어를 스택에 쌓기
+        stack.append(char)
+
+# 마지막 단어 뒤집어서 출력
+while stack:
+    answer += stack.pop()
+
+print(answer)
